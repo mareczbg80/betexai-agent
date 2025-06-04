@@ -14,7 +14,6 @@ def analyze():
     data = request.get_json()
     user_input = data.get('message', '')
 
-    # OVDE IDE TVOJA OBRADA – za sada simuliramo odgovor
     response = {
         "response": f"⚔️ Meč: {user_input}\n🔍 Trenutno obrađujem podatke za tvoju analizu... sačekaj trenutak!"
     }
