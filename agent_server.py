@@ -1,25 +1,25 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_cors import CORS
+import os
 
 app = Flask(__name__)
-CORS(app)  # dozvoljava pozive sa tvoje WP stranice
+CORS(app)
 
-@app.route('/betexai', methods=['POST'])
-def process_request():
+@app.route('/', methods=['GET'])
+def home():
+    return jsonify({"status": "BetExAi agent is running."})
+
+@app.route('/analyze', methods=['POST'])
+def analyze():
     data = request.get_json()
-    user_input = data.get("prompt", "").lower()
+    user_input = data.get('message', '')
 
-    # 👉 Ovo je demo logika – možeš kasnije povezati sa pravim API
-    if "zvezda" in user_input and "partizan" in user_input:
-        return """
-⚔️ Zvezda vs Partizan
-🔍 Pre-match analiza – Zvezda u formi, Partizan sa slabim učinkom u derbijima
-📊 xG: 1.85 vs 1.22, SoG: 6 vs 3
-✅ Over 2.5 @ 1.85 – verovatnoća 71%, value zona +14%
-📌 Glavni ulaz pre meča – tempo i stil obe ekipe podržavaju over
-"""
-    else:
-        return "⚠️ Nije prepoznat meč – probaj sa 'zvezda vs partizan'"
+    # OVDE IDE TVOJA OBRADA – za sada simuliramo odgovor
+    response = {
+        "response": f"⚔️ Meč: {user_input}\n🔍 Trenutno obrađujem podatke za tvoju analizu... sačekaj trenutak!"
+    }
+    return jsonify(response)
 
-if __name__ == "__main__":
-    app.run(port=5000)
+if __name__ == '__main__':
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
